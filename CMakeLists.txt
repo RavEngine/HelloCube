@@ -1,8 +1,9 @@
 cmake_minimum_required(VERSION 3.23)
 
+# make "install" write to the build directory
 set(CMAKE_INSTALL_PREFIX ${CMAKE_CURRENT_BINARY_DIR})
 
-# set output dirs
+# set output dirs to the build directory
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIGURATION>)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIGURATION>)
 
@@ -33,6 +34,7 @@ pack_resources(TARGET "${PROJECT_NAME}"
 )
 
 # fixup macOS / iOS / tvOS bundle
+# this is important if you use third party libraries that are linked dynamically. 
 if(APPLE)
 INSTALL(CODE 
    "include(BundleUtilities)
