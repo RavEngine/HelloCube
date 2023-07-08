@@ -11,16 +11,11 @@ using namespace std;
 // Start by defining an application class that derives from RavEngine::App.
 struct HelloCubeApp : public RavEngine::App {
 
-	// Implement a constructor that calls this superclass constructor. The parameter
-	// passed here is the name of the resources zip file that your application is loading.
-	// when using pack_resources in CMake, pass the name of your target.
-	HelloCubeApp() : App("HelloCube") {}
-
-	// Next, implement OnStartup. This is called when your application launches.
+	// Implement OnStartup. This is called when your application launches.
 	// You are passed argc and argv from the command line. 
 	void OnStartup(int argc, char** argv) final;
 
-	// Finally, if there are any unrecoverable errors that occur, you can optionally override
+	// If there are any unrecoverable errors that occur, you can optionally override
 	// this method to perform a custom action before closing. In this case, we will display
 	// an error dialog to the user.
 	void OnFatal(const char* msg) final {
