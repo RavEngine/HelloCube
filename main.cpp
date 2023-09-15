@@ -74,7 +74,7 @@ struct HelloCubeWorld : public RavEngine::World {
 
 		// We want some lighting on our cube. In RavEngine, lights are also components, so we'll need an entity for those.
 		auto lightsEntity = CreatePrototype<GameObject>();
-		lightsEntity.EmplaceComponent<DirectionalLight>();							// a light that mimics the sun
+		lightsEntity.EmplaceComponent<DirectionalLight>().SetIntensity(4);	// a light that mimics the sun
 		lightsEntity.EmplaceComponent<AmbientLight>().SetIntensity(0.2);	// a weak fill light that affects all surfaces equally
 
 		// Lights use the transformation of their parent entity to determine their rotation and position.
