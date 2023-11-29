@@ -57,7 +57,8 @@ struct HelloCubeWorld : public RavEngine::World {
 		// the engine to crash, as that is an invalid state.
 		// The EmplaceComponent method constructs the component inline and attaches it to the entity.
 		// Component creation and deletion must happen on the main thread.
-		cubeEntity.EmplaceComponent<StaticMesh>(cubeMesh, cubeMat);
+		// Note that you must also inform the engine if your material is Lit or Unlit. Lit is shown below.
+		cubeEntity.EmplaceComponent<StaticMesh>(cubeMesh, LitMeshMaterialInstance(cubeMat));
 
 		// We want to be able to see our cube, so we need a camera. In RavEngine, cameras are also components, so 
 		// we need another entity to hold that. 
