@@ -18,7 +18,7 @@ struct HelloCubeApp : public RavEngine::App {
 	// If there are any unrecoverable errors that occur, you can optionally override
 	// this method to perform a custom action before closing. In this case, we will display
 	// an error dialog to the user.
-	void OnFatal(const char* msg) final {
+	void OnFatal(const std::string_view msg) final {
 		RavEngine::Dialog::ShowBasic("Fatal Error", msg, Dialog::MessageBoxType::Error);
 	}
 };
