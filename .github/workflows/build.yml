@@ -1,0 +1,35 @@
+name: Build Sample for Android
+
+on: [push, pull_request]
+
+jobs:
+  apk:
+    name: Apk Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get the Android Builder
+        run: git clone https://github.com/ravbug/sdl-android-builder
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+          path: sdl-android-builder/to-build/
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Update the build.gradle
+        run:  |
+               cp build.gradle SDL/android-project/app/
+
+      - name: Build the APK
+        run: |
+              cd SDL/android-project/
+              ./gradlew installDebug
+
+      - name: Upload the APK
+        uses: actions/upload-artifact@v3
+        with: 
+          name: app-debug.apk
+          path: SDL/android-project/app/build/outputs/apk/debug/app-debug.apk
