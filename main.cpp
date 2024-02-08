@@ -4,6 +4,7 @@
 #include <RavEngine/CameraComponent.hpp>
 #include <RavEngine/GameObject.hpp>
 #include <RavEngine/Dialogs.hpp>
+#include <RavEngine/StartApp.hpp>
 
 using namespace RavEngine;
 using namespace std;
