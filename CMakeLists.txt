@@ -15,8 +15,9 @@ add_subdirectory("RavEngine" EXCLUDE_FROM_ALL) # configure the engine library
 file(GLOB SOURCES "*.cpp" "*.hpp" "*.h")
 if (ANDROID)
    # The SDL java code is hardcoded to load libmain.so on android, so we need to change EXECUTABLE_NAME
+   # it must also explicitly be a shared library
    set(EXECUTABLE_NAME main)
-   add_library("${EXECUTABLE_NAME}" ${SOURCES})
+   add_library("${EXECUTABLE_NAME}" SHARED ${SOURCES})
 else()
    set(EXECUTABLE_NAME "${PROJECT_NAME}")
    add_executable("${EXECUTABLE_NAME}" ${SOURCES})
@@ -39,6 +40,11 @@ pack_resources(TARGET "${EXECUTABLE_NAME}"
    FONTS ${fonts}
    SOUNDS ${sounds}
 )
+
+if (ANDROID)
+   # SDL android is hardcoded to load "libmain.so" with no "d" postfix
+   set_target_properties(${EXECUTABLE_NAME} PROPERTIES DEBUG_POSTFIX "")
+endif()
 
 # fixup macOS / iOS / tvOS bundle
 # this is important if you use third party libraries that are linked dynamically. 
