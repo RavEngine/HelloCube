@@ -17,13 +17,17 @@ if (ANDROID)
    # The SDL java code is hardcoded to load libmain.so on android, so we need to change EXECUTABLE_NAME
    # it must also explicitly be a shared library
    set(EXECUTABLE_NAME main)
-   add_library("${EXECUTABLE_NAME}" SHARED ${SOURCES})
+   add_library("${EXECUTABLE_NAME}" SHARED)
 else()
    set(EXECUTABLE_NAME "${PROJECT_NAME}")
-   add_executable("${EXECUTABLE_NAME}" ${SOURCES})
+   add_executable("${EXECUTABLE_NAME}")
 endif()
+target_sources(${EXECUTABLE_NAME} PRIVATE ${SOURCES})
+
 target_link_libraries("${EXECUTABLE_NAME}" PUBLIC "RavEngine" )  # also adds header includes
 target_compile_features("${EXECUTABLE_NAME}" PRIVATE cxx_std_20)  # require C++20
+
+#target_link_options("${EXECUTABLE_NAME}" PUBLIC "-Wl,--undefined=SDL_main")
 
 # inform engine about your different assets
 file(GLOB objects "objects/*.obj" "objects/*.fbx")
@@ -42,8 +46,10 @@ pack_resources(TARGET "${EXECUTABLE_NAME}"
 )
 
 if (ANDROID)
-   # SDL android is hardcoded to load "libmain.so" with no "d" postfix
-   set_target_properties(${EXECUTABLE_NAME} PROPERTIES DEBUG_POSTFIX "")
+   set_target_properties(${EXECUTABLE_NAME} PROPERTIES
+           DEBUG_POSTFIX ""   # SDL android is hardcoded to load "libmain.so" with no "d" postfix
+   )
+   #target_link_options(${EXECUTABLE_NAME} PUBLIC "-Wl,--no-gc-sections" "-Wl,--undefined=ignore")
 endif()
 
 # fixup macOS / iOS / tvOS bundle
