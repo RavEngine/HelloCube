@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.21)
 
-set(ANDROID_USE_LEGACY_TOOLCHAIN_FILE OFF CACHE BOOL "Don't use legacy android toolchain file" FORCE)
-
 # make "install" write to the build directory
 set(CMAKE_INSTALL_PREFIX ${CMAKE_CURRENT_BINARY_DIR})
 
@@ -10,6 +8,9 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIGURATION>)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIGURATION>)
 
 PROJECT(HelloCube)
+
+string(REPLACE "-Wl,--gc-sections" "" CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS}")
+string(REPLACE "-Wl,--no-undefined" "" CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS}")
 
 add_subdirectory("RavEngine" EXCLUDE_FROM_ALL) # configure the engine library
 
