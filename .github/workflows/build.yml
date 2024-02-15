@@ -22,7 +22,7 @@ jobs:
       - name: Build the APK
         run: |
           cd sdl-android-builder
-          ./gradlew build
+          ./gradlew assembleRelease
 
       - name: Upload the APK
         uses: actions/upload-artifact@v3
