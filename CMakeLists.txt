@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.21)
 
+set(ANDROID_USE_LEGACY_TOOLCHAIN_FILE OFF CACHE BOOL "Don't use legacy android toolchain file" FORCE)
+
 # make "install" write to the build directory
 set(CMAKE_INSTALL_PREFIX ${CMAKE_CURRENT_BINARY_DIR})
 
@@ -62,3 +64,10 @@ INSTALL(CODE
    COMPONENT Runtime
 )
 endif()
+
+
+message(
+        CMAKE_SHARED_LINKER_FLAGS = ${CMAKE_SHARED_LINKER_FLAGS}
+        CMAKE_SHARED_LINKER_FLAGS_RELEASE = ${CMAKE_SHARED_LINKER_FLAGS_RELEASE}
+        CMAKE_SHARED_LINKER_FLAGS_DEBUG = ${CMAKE_SHARED_LINKER_FLAGS_DEBUG}
+)
