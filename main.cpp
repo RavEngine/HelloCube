@@ -39,7 +39,7 @@ struct HelloCubeWorld : public RavEngine::World {
 		// RavEngine Entities do not come with a Transform by default. For convenience, a "GameObject" is also provided. However, this
 		// is just an entity with a transform component applied automatically, do not confuse it with Unity's version of a GameObject.
 		// When you call this, it immediately creates the entity in the world. Entity creation and deletion must happen on the main thread.
-		auto cubeEntity = CreatePrototype<GameObject>();
+		auto cubeEntity = Instantiate<GameObject>();
 
 		// We want to display a cube in this world. RavEngine uses a component-based composition model 
 		// for describing scene objects. However, you can also subclass RavEngine::Entity and perform
@@ -63,7 +63,7 @@ struct HelloCubeWorld : public RavEngine::World {
 
 		// We want to be able to see our cube, so we need a camera. In RavEngine, cameras are also components, so 
 		// we need another entity to hold that. 
-		auto cameraEntity = CreatePrototype<GameObject>();
+		auto cameraEntity = Instantiate<GameObject>();
 
 		// Create the CameraComponent. 
 		auto& cameraComponent = cameraEntity.EmplaceComponent<CameraComponent>();
@@ -75,7 +75,7 @@ struct HelloCubeWorld : public RavEngine::World {
 		cubeEntity.GetTransform().LocalTranslateDelta(vector3(0, 0, -5));
 
 		// We want some lighting on our cube. In RavEngine, lights are also components, so we'll need an entity for those.
-		auto lightsEntity = CreatePrototype<GameObject>();
+		auto lightsEntity = Instantiate<GameObject>();
 		lightsEntity.EmplaceComponent<DirectionalLight>().SetIntensity(4);	// a light that mimics the sun
 		lightsEntity.EmplaceComponent<AmbientLight>().SetIntensity(0.2);	// a weak fill light that affects all surfaces equally
 
