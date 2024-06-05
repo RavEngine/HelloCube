@@ -25,6 +25,7 @@ jobs:
 
       - name: Fix CMake min required
         run: |
+            ls sdl-android-builder/to-build/
             cd sdl-android-builder/to-build/HelloCube/RavEngine
             sed -i -e 's/3.25/3.22/' CMakeLists.txt
 
@@ -45,7 +46,7 @@ jobs:
             ./gradlew assemble${{ matrix.target }}
 
       - name: Upload the APK
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with: 
           name: app-${{matrix.target}}.apk
           path: sdl-android-builder/app/build/outputs/apk/*
