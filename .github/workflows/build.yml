@@ -28,6 +28,17 @@ jobs:
           cd sdl-android-builder
           ./gradlew assemble${{ matrix.target }}
 
+      - name: Copy Assets
+        run: |
+            cd sdl-android-builder/app/.cxx
+            assets=sdl-android-builder/app/.cxx/`find . -name "main.rvedata" -print -quit`
+            cp $assets sdl-android-builder/app/src/main/assets/
+
+      - name: Build APK with Assets
+        run: |
+            cd sdl-android-builder
+            ./gradlew assemble${{ matrix.target }}
+
       - name: Upload the APK
         uses: actions/upload-artifact@v3
         with: 
