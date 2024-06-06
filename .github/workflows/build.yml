@@ -37,6 +37,7 @@ jobs:
         run: |
             cd sdl-android-builder/app/.cxx
             assets=sdl-android-builder/app/.cxx/`find . -name "main.rvedata" -print -quit`
+            cd ../../../
             cp $assets sdl-android-builder/app/src/main/assets/
 
       - name: Build APK with Assets
