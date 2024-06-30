@@ -5,6 +5,7 @@
 #include <RavEngine/GameObject.hpp>
 #include <RavEngine/Dialogs.hpp>
 #include <RavEngine/StartApp.hpp>
+#include <RavEngine/MeshCollection.hpp>
 
 using namespace RavEngine;
 using namespace std;
@@ -46,7 +47,7 @@ struct HelloCubeWorld : public RavEngine::World {
 		// setup inside Entity::Create for Unreal-style inheritance. 
 
 		// We will start by loading the cube mesh. The cube is one of the default primitives that comes with RavEngine.
-		auto cubeMesh = MeshAsset::Manager::Get("cube.obj");
+		auto cubeMesh = MeshCollectionStaticManager::Get("cube.obj");
 
 		// Next we need to define a material for the cube. We can use the default material.
 		// RavEngine can optimize your rendering for you by batching if you minimize the number of Material Instances you create,
@@ -58,8 +59,7 @@ struct HelloCubeWorld : public RavEngine::World {
 		// the engine to crash, as that is an invalid state.
 		// The EmplaceComponent method constructs the component inline and attaches it to the entity.
 		// Component creation and deletion must happen on the main thread.
-		// Note that you must also inform the engine if your material is Lit or Unlit. Lit is shown below.
-		cubeEntity.EmplaceComponent<StaticMesh>(cubeMesh, LitMeshMaterialInstance(cubeMat));
+		cubeEntity.EmplaceComponent<StaticMesh>(cubeMesh, cubeMat);
 
 		// We want to be able to see our cube, so we need a camera. In RavEngine, cameras are also components, so 
 		// we need another entity to hold that. 
