@@ -91,7 +91,7 @@ struct HelloCubeWorld : public RavEngine::World {
 			// For best performance, order your parameter types from least common to most common. 
 			void operator()(const StaticMesh& mesh, Transform& t) const {
 
-				// Let's spin our obuect.
+				// Let's spin our object.
 				// RavEngine expects rotations in radians. Use deg_to_rad to convert to degrees.
 				auto rotVec = vector3(deg_to_rad(1), deg_to_rad(2), deg_to_rad(-0.5));
 
