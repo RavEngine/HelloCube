@@ -81,32 +81,32 @@ struct HelloCubeWorld : public RavEngine::World {
 
 		// Lights use the transformation of their parent entity to determine their rotation and position.
 		lightsEntity.GetTransform().LocalRotateDelta(vector3{ deg_to_rad(45), deg_to_rad(45),0 });
-	}
 
-	// The engine calls this method synchronously every tick after the rest of the pipeline has finished processing.
-	void PostTick(float tickrateScale) final {
+		// Finally, we'll add a System. Systems are how you update objects in the world.
+		// A System can be anything with a call operator. Here we'll use a struct, but lambdas also work.
+		struct CubeSpinSystem {
 
-		// We can hold onto an entity as a class variable, but I'll instead use this opportunity to demonstrate the query system.
-		// RavEngine worlds can be queried extremely efficiently by component type. Since we know that this world contains
-		// one static mesh, we can use that to get our entity.
-		// Note that order is not guarenteed, so I advise against using this trick unless you are certain there is only one instance of the type.
-		auto& meshComp = GetComponent<StaticMesh>();
+			// This System will run for every entity in the current world that has both a StaticMesh and a Transform component. 
+			// Our world currently only has one object that matches this component loadout - the cube we added earlier. 
+			// For best performance, order your parameter types from least common to most common. 
+			void operator()(const StaticMesh& mesh, Transform& t) const {
 
-		// some components provide a convenience method to get the owning Entity.
-		auto entity = meshComp.GetOwner();
+				// Let's spin our obuect.
+				// RavEngine expects rotations in radians. Use deg_to_rad to convert to degrees.
+				auto rotVec = vector3(deg_to_rad(1), deg_to_rad(2), deg_to_rad(-0.5));
 
-		// Let's spin our cube.
-		// RavEngine expects rotations in radians. Use deg_to_rad to convert to degrees.
-		auto rotVec = vector3(deg_to_rad(1), deg_to_rad(2), deg_to_rad(-0.5));
+				// If the engine were to fall behind, we need to ensure our game does not run in slow motion.
+				// To accomplish this, we simply multiply our movements by a scale factor passed into this method.
+				// RavEngine has already calcuated the scale factor for us. This is *not* a deltaTime, as opposed to Unity and Unreal.
+				rotVec *= GetApp()->GetCurrentFPSScale();
 
-		// If the engine were to fall behind, we need to ensure our game does not run in slow motion.
-		// To accomplish this, we simply multiply our movements by a scale factor passed into this method.
-		// RavEngine has already calcuated the scale factor for us. This is *not* a deltaTime, as opposed to Unity and Unreal.
-		rotVec *= tickrateScale;
+				// Write the change to the transform.
+				t.LocalRotateDelta(rotVec);
+			}
+		};
 
-		// Entities can also be queried efficiently for components, just like worlds. Since Transforms are
-		// a very frequent access, GameObjects provide the convenience function GetTransform, to use instead.
-		entity.GetTransform().LocalRotateDelta(rotVec);
+		// Add our new System to the world. The engine will automatically invoke it every frame. 
+		EmplaceSystem<CubeSpinSystem>();
 	}
 };
 
