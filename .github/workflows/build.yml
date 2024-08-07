@@ -16,7 +16,7 @@ jobs:
         run: git clone https://github.com/ravbug/sdl-android-builder
       - uses: actions/checkout@v4
         with:
-          submodules: true
+          submodules: recursive
           path: sdl-android-builder/to-build/HelloCube
       - uses: actions/setup-java@v4
         with:
