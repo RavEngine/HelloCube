@@ -49,7 +49,7 @@ jobs:
       - name: Upload the APK
         uses: actions/upload-artifact@v4
         with: 
-          name: app-${{matrix.target}}.apk
+          name: app-${{matrix.target}}
           path: sdl-android-builder/app/build/outputs/apk/*
 
   build-windows:
