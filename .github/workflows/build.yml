@@ -80,6 +80,6 @@ jobs:
         with:
           name: RavEngine_Samples_Win${{ matrix.arch }}
           path: |
-                build\win\Release\RavEngine*.exe 
-                build\win\Release\RavEngine*.rvedata
-                build\win\Release\RavEngine*Streaming\*
+                build\win\release\RavEngine*.exe 
+                build\win\release\RavEngine*.rvedata
+                build\win\release\RavEngine*Streaming\*
