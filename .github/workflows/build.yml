@@ -64,7 +64,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          submodules: true
+          submodules: recursive
       - name: Configure
         run: |
           mkdir build
@@ -80,6 +80,7 @@ jobs:
         with:
           name: RavEngine_Samples_Win${{ matrix.arch }}
           path: |
-                build\win\release\RavEngine*.exe 
-                build\win\release\RavEngine*.rvedata
-                build\win\release\RavEngine*Streaming\*
+                build\win\release\*.exe 
+                build\win\release\*.rvedata
+                build\win\release\D3D12\
+            
