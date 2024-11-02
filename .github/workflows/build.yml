@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Get the Android Builder
-        run: git clone https://github.com/ravbug/sdl-android-builder
+        run: git clone https://github.com/RavEngine/sdl-android-builder
       - uses: actions/checkout@v4
         with:
           submodules: recursive
