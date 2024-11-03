@@ -9,12 +9,6 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIGURATION>)
 
 PROJECT(HelloCube)
 
-if (ANDROID)
-   # On android these flags get added to the NDK which causes SDL_main to get deleted from the .so
-   string(REPLACE "-Wl,--gc-sections" "" CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS}")
-   string(REPLACE "-Wl,--no-undefined" "" CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS}")
-endif()
-
 add_subdirectory("RavEngine" EXCLUDE_FROM_ALL) # configure the engine library
 
 # configure your executable like normal
@@ -27,13 +21,15 @@ if (ANDROID)
 else()
    set(EXECUTABLE_NAME "${PROJECT_NAME}")
    add_executable("${EXECUTABLE_NAME}")
+   
+   set_target_properties(${EXECUTABLE_NAME} PROPERTIES
+      DEBUG_POSTFIX ""   # SDL android is hardcoded to load "libmain.so" with no "d" postfix
+   )
 endif()
 target_sources(${EXECUTABLE_NAME} PRIVATE ${SOURCES})
 
 target_link_libraries("${EXECUTABLE_NAME}" PUBLIC "RavEngine" )  # also adds header includes
-target_compile_features("${EXECUTABLE_NAME}" PRIVATE cxx_std_20)  # require C++20
-
-#target_link_options("${EXECUTABLE_NAME}" PUBLIC "-Wl,--undefined=SDL_main")
+target_compile_features("${EXECUTABLE_NAME}" PRIVATE cxx_std_23)  # C++ version
 
 # inform engine about your different assets
 file(GLOB objects "objects/*.obj" "objects/*.fbx")
@@ -50,13 +46,6 @@ pack_resources(TARGET "${EXECUTABLE_NAME}"
    FONTS ${fonts}
    SOUNDS ${sounds}
 )
-
-if (ANDROID)
-   set_target_properties(${EXECUTABLE_NAME} PROPERTIES
-           DEBUG_POSTFIX ""   # SDL android is hardcoded to load "libmain.so" with no "d" postfix
-   )
-   #target_link_options(${EXECUTABLE_NAME} PUBLIC "-Wl,--no-gc-sections" "-Wl,--undefined=ignore")
-endif()
 
 # fixup macOS / iOS / tvOS bundle
 # this is important if you use third party libraries that are linked dynamically. 
