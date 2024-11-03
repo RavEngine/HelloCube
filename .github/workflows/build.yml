@@ -22,11 +22,6 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-      - name: Setup NDK
-        id: setup-ndk
-        uses: nttld/setup-ndk@v1
-        with:
-            ndk-version: r28
       - name: Fix CMake min required
         run: |
             cd sdl-android-builder/to-build/HelloCube/RavEngine
