@@ -14,17 +14,18 @@ add_subdirectory("RavEngine" EXCLUDE_FROM_ALL) # configure the engine library
 # configure your executable like normal
 file(GLOB SOURCES "*.cpp" "*.hpp" "*.h")
 if (ANDROID)
-   # The SDL java code is hardcoded to load libmain.so on android, so we need to change EXECUTABLE_NAME
+   # The SDL java code is hardcoded to load libmain.so on android, so we need to change EXECUTABLE_NAME.
    # it must also explicitly be a shared library
    set(EXECUTABLE_NAME main)
    add_library("${EXECUTABLE_NAME}" SHARED)
+
+   # SDL android is hardcoded to load "libmain.so" with no "d" postfix
+   set_target_properties(${EXECUTABLE_NAME} PROPERTIES
+      DEBUG_POSTFIX ""   
+   )
 else()
    set(EXECUTABLE_NAME "${PROJECT_NAME}")
    add_executable("${EXECUTABLE_NAME}")
-   
-   set_target_properties(${EXECUTABLE_NAME} PROPERTIES
-      DEBUG_POSTFIX ""   # SDL android is hardcoded to load "libmain.so" with no "d" postfix
-   )
 endif()
 target_sources(${EXECUTABLE_NAME} PRIVATE ${SOURCES})
 
